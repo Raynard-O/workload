@@ -25,18 +25,3 @@ type RFD struct {
 	batches       []batch `json:"batches"`
 }
 
-//
-//func GenId(pref string, n int) string {
-//	RHex, _ := RandomHex(n)
-//	return fmt.Sprintf("%s_%s", pref, RHex)
-//}
-//
-//// Generate random hash
-//func RandomHex(n int) (string, error) {
-//	bytes := make([]byte, n)
-//	if _, err := rand.Read(bytes); err != nil {
-//		return "", err
-//	}
-//	return hex.EncodeToString(bytes), nil
-//}
-//

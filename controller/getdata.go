@@ -3,6 +3,7 @@ package controller
 import (
 	"Proto/library"
 	"encoding/csv"
+	"fmt"
 	"github.com/labstack/echo"
 	"io"
 	"log"
@@ -31,7 +32,8 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 	if err := ctx.Bind(workload); err != nil {
 		log.Fatal(err)
 	}
-	if workload.BenchmarkType == "" || workload.BatchSize == 0 || workload.RFWID == "" || workload.WorkloadMetric == "" {
+	fmt.Print(workload)
+	if workload.BenchmarkType == "" || workload.RFWID == "" || workload.WorkloadMetric == "" {
 		log.Fatal("Params can not be empty")
 	}
 

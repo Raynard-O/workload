@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/labstack/echo"
 	"log"
+	"net/http"
 )
 
 func P(c echo.Context) error {
@@ -58,7 +59,7 @@ func P(c echo.Context) error {
 		}
 		batch3 = append(batch3, batch)
 	}
-
+	//c.JSONPretty(200, batch3, "!")
 	//fmt.Println(batch3)
 	return Proto(c, workload.RFWID, int32(workload.BatchID), batch3)
 
@@ -76,5 +77,6 @@ func Proto(c echo.Context, RFWID string, LASTBATCHID int32, batch []*grpc_from0.
 	binary.DecodeProto(data, file)
 	fmt.Print(file)
 
+		c.String(http.StatusOK, string(data))
 	return c.JSONBlob(200, data)
 }
