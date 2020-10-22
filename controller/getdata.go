@@ -31,7 +31,11 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 	if err := ctx.Bind(workload); err != nil {
 		log.Fatal(err)
 	}
-	workload.BatchSize = 0
+	if workload.BenchmarkType == "" || workload.BatchSize == 0 || workload.RFWID == "" || workload.WorkloadMetric == "" {
+		log.Fatal("Params can not be empty")
+	}
+
+		workload.BatchSize = 0
 	//workload := library.DataParamsRequest{
 	//
 	//	Benchmark_Type:  "NDBENCH",
