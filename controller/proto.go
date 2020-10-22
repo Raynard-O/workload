@@ -75,6 +75,6 @@ func Proto(c echo.Context, RFWID string, LASTBATCHID int32, batch []*grpc_from0.
 	file := &grpc_from0.RFD{}
 	binary.DecodeProto(data, file)
 	fmt.Print(file)
-	c.JSON(200, file)
+
 	return c.JSONBlob(200, data)
 }
