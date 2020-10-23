@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/labstack/echo"
 	"log"
-	"net/http"
 )
 
 func P(c echo.Context) error {
@@ -47,10 +46,38 @@ func P(c echo.Context) error {
 		c := i * workload.BatchUnit
 
 		for j := c; j < c+workload.BatchUnit; j++ {
-			samp := &grpc_from0.Sample{
-				CPUUtilization: data[j].CpuUtilizationAverage,
+
+			switch Bench {
+			case 0:
+				samp := &grpc_from0.Sample{
+					CPUUtilization: data[j].CpuUtilizationAverage,
+				}
+				sam = append(sam, samp)
+			case 1 :
+				samp := &grpc_from0.Sample{
+					NetworkIN: data[j].NetworkInAverage,
+				}
+				sam = append(sam, samp)
+			case 2:
+				samp := &grpc_from0.Sample{
+					NetworkOUT: data[j].NetworkOutAverage,
+				}
+				sam = append(sam, samp)
+			case 3:
+				samp := &grpc_from0.Sample{
+					MemoryUtilization: data[j].MemoryUtilizationAverage,
+				}
+				sam = append(sam, samp)
+			default:
+				samp := &grpc_from0.Sample{
+					FinalTarget: data[j].FinalTarget,
+				}
+				sam = append(sam, samp)
 			}
-			sam = append(sam, samp)
+
+
+
+
 		}
 
 		batch := &grpc_from0.Batch{
@@ -59,8 +86,7 @@ func P(c echo.Context) error {
 		}
 		batch3 = append(batch3, batch)
 	}
-	//c.JSONPretty(200, batch3, "!")
-	//fmt.Println(batch3)
+
 	return Proto(c, workload.RFWID, int32(workload.BatchID), batch3)
 
 }
@@ -77,6 +103,6 @@ func Proto(c echo.Context, RFWID string, LASTBATCHID int32, batch []*grpc_from0.
 	binary.DecodeProto(data, file)
 	fmt.Print(file)
 
-		c.String(http.StatusOK, string(data))
+
 	return c.JSONBlob(200, data)
 }

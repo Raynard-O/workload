@@ -13,10 +13,10 @@ import (
 
 type WORKLOAD struct {
 	CpuUtilizationAverage    int32
-	NetworkInAverage         int
-	NetworkOutAverage        int
-	MemoryUtilizationAverage float64
-	FinalTarget              float64
+	NetworkInAverage         int32
+	NetworkOutAverage        int32
+	MemoryUtilizationAverage float32
+	FinalTarget              float32
 }
 type DATAs struct {
 	WORKLOADs []WORKLOAD
@@ -93,8 +93,8 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 
 		dvd.CpuUtilizationAverage = int32(i)
 		dvd.NetworkInAverage = j
-		dvd.NetworkOutAverage = k
-		dvd.MemoryUtilizationAverage = s
+		dvd.NetworkOutAverage = int32(k)
+		dvd.MemoryUtilizationAverage = float32(s)
 		dvd.FinalTarget = m
 		workload.BatchSize++
 		datas.AddItems(*dvd)

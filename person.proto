@@ -9,6 +9,7 @@ message sample {
   int32 NetworkIN = 2;
   int32 NetworkOUT = 3;
   float Memory_utilization = 4;
+  float FinalTarget = 5;
 }
 
 
