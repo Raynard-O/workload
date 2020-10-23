@@ -102,3 +102,83 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 
 	return datas.WORKLOADs, workload
 }
+
+
+
+func DataSet2(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
+
+	//workload := new(library.DataParamsRequest)
+	//if err := ctx.Bind(workload); err != nil {
+	//	log.Fatal(err)
+	//}
+	workload := &library.DataParamsRequest{
+
+		BenchmarkType:  "NDBENCH",
+		WorkloadMetric: "CPU",
+		BatchUnit:      2,
+		BatchID:         5,
+		BatchSize:      0,
+	}
+	fmt.Print(workload)
+	//if workload.BenchmarkType == "" || workload.RFWID == "" || workload.WorkloadMetric == "" {
+	//	log.Fatal("Params can not be empty")
+	//}
+
+	workload.BatchSize = 0
+
+	var fileimage string
+
+	switch workload.BenchmarkType {
+	case "DVD":
+		fileimage = "Workload_Data/DVD-training.csv"
+		//if workload.Workload_Metric == "TRAIN" {
+		//	fileimage = "Workload_Data/DVD-training.csv"
+		//}
+		//else {
+		//	fileimage = "Workload_Data/DVD-testing.csv"
+		//}
+	default:
+		fileimage = "Workload_Data/NDBench-training.csv"
+		//if workload.Workload_Metric != "TRAIN" {
+		//	fileimage = "Workload_Data/NDBench-training.csv"
+		//}else {
+		//	fileimage = "Workload_Data/NDBench-testing.csv"
+		//}
+	}
+
+	file, err := os.Open(fileimage)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	r := csv.NewReader(file)
+	// Iterate through the records
+	datas := new(DATAs)
+
+	for {
+		// Read each record from csv
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		i, _ := strconv.Atoi(record[0])
+		j, _ := strconv.Atoi(record[1])
+		k, _ := strconv.Atoi(record[2])
+		s, _ := strconv.ParseFloat(record[3], 64)
+		m, _ := strconv.ParseFloat(record[4], 64)
+
+		dvd := new(WORKLOAD)
+
+		dvd.CpuUtilizationAverage = int32(i)
+		dvd.NetworkInAverage = int32(j)
+		dvd.NetworkOutAverage = int32(k)
+		dvd.MemoryUtilizationAverage = float32(s)
+		dvd.FinalTarget = float32(m)
+		workload.BatchSize++
+		datas.AddItems(*dvd)
+	}
+
+	return datas.WORKLOADs, workload
+}

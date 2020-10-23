@@ -1,21 +1,13 @@
 package controller
 
 import (
-	"Proto/library"
 	"github.com/labstack/echo"
 )
 
 func Summary(c echo.Context) error {
 
-	_ = library.DataParamsRequest{
 
-		BenchmarkType:  "NDBENCH",
-		WorkloadMetric: "CPU",
-		BatchUnit:      2,
-		BatchID:         5,
-		BatchSize:      0,
-	}
-	data, _ := DataSet(c)
+	data, _ := DataSet2(c)
 
 	//type test struct {
 	//	Home string `json:"home"`
