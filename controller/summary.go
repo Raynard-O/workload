@@ -7,7 +7,7 @@ import (
 
 func Summary(c echo.Context) error {
 
-	workload := library.DataParamsRequest{
+	_ = library.DataParamsRequest{
 
 		BenchmarkType:  "NDBENCH",
 		WorkloadMetric: "CPU",
