@@ -1,14 +1,15 @@
 package controller
 
 import (
-	"Proto/github.com/binary"
-	grpc_from0 "Proto/github.com/monkrus/grpc-from0"
+	"Proto/library"
 	"fmt"
 	"github.com/labstack/echo"
-	"log"
+	"net/http"
 )
 
-func P(c echo.Context) error {
+
+
+func J(c echo.Context) error {
 
 	data, workload := DataSet(c)
 	//size := strconv.Itoa(int(workload.Batch_Size))
@@ -35,13 +36,13 @@ func P(c echo.Context) error {
 	fmt.Println(Bench)
 
 	batchSize := (workload.BatchSize / workload.BatchUnit) - 1
+	var batch3 []*library.Batch
 
-	var batch3 []*grpc_from0.Batch
 	for i := batchSize; i > (batchSize)-workload.BatchID; i-- {
 		//fmt.Println(i)
 		f := batchSize - i
 
-		var sam []*grpc_from0.Sample
+		var sam []*library.Sample
 
 		c := i * workload.BatchUnit
 
@@ -49,27 +50,27 @@ func P(c echo.Context) error {
 
 			switch Bench {
 			case 0:
-				samp := &grpc_from0.Sample{
-					CPUUtilization: data[j].CpuUtilizationAverage,
+				samp := &library.Sample{
+					CpuUtilization: data[j].CpuUtilizationAverage,
 				}
 				sam = append(sam, samp)
 			case 1 :
-				samp := &grpc_from0.Sample{
+				samp := &library.Sample{
 					NetworkIN: data[j].NetworkInAverage,
 				}
 				sam = append(sam, samp)
 			case 2:
-				samp := &grpc_from0.Sample{
+				samp := &library.Sample{
 					NetworkOUT: data[j].NetworkOutAverage,
 				}
 				sam = append(sam, samp)
 			case 3:
-				samp := &grpc_from0.Sample{
+				samp := &library.Sample{
 					MemoryUtilization: data[j].MemoryUtilizationAverage,
 				}
 				sam = append(sam, samp)
 			default:
-				samp := &grpc_from0.Sample{
+				samp := &library.Sample{
 					FinalTarget: data[j].FinalTarget,
 				}
 				sam = append(sam, samp)
@@ -77,29 +78,23 @@ func P(c echo.Context) error {
 
 		}
 
-		batch := &grpc_from0.Batch{
-			Batch_ID: int32(f + 1),
+		batch := &library.Batch{
+			Batch_ID: f + 1,
 			Samples:  sam,
 		}
 		batch3 = append(batch3, batch)
 	}
-
-	return Proto(c, workload.RFWID, int32(workload.BatchID), batch3)
+	return  EncodeJson(c, workload.RFWID, workload.BatchID, batch3)
 
 }
 
-func Proto(c echo.Context, RFWID string, LASTBATCHID int32, batch []*grpc_from0.Batch) error {
-
-	data, err := binary.EncodeProto(RFWID, LASTBATCHID, batch)
-
-	if err != nil {
-		log.Fatal("marshaling error: ", err)
+func EncodeJson(c echo.Context, RfwId string, LastBatchID int, samplesWorK []*library.Batch) error {
+	RFW := &library.RFD{
+		RFWID:       RfwId,
+		LastBatchId: LastBatchID,
+		Batches:     samplesWorK,
 	}
 
-	file := &grpc_from0.RFD{}
-	binary.DecodeProto(data, file)
-	fmt.Print(file)
-
-
-	return c.JSONBlob(200, data)
+	return c.JSONPretty(http.StatusOK, RFW, "!")
 }
+
