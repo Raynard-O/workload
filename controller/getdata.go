@@ -101,5 +101,4 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 	}
 
 	return datas.WORKLOADs, workload
-	//ctx.JSON(200, datas.DVD_TESTs[dataNumber-1])
 }
