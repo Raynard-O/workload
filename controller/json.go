@@ -95,6 +95,6 @@ func EncodeJson(c echo.Context, RfwId string, LastBatchID int, samplesWorK []*li
 		Batches:     samplesWorK,
 	}
 
-	return c.JSONPretty(http.StatusOK, RFW, "!")
+	return c.JSONPretty(http.StatusOK, RFW, "")
 }
 
