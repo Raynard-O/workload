@@ -92,10 +92,10 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 		dvd := new(WORKLOAD)
 
 		dvd.CpuUtilizationAverage = int32(i)
-		dvd.NetworkInAverage = j
+		dvd.NetworkInAverage = int32(j)
 		dvd.NetworkOutAverage = int32(k)
 		dvd.MemoryUtilizationAverage = float32(s)
-		dvd.FinalTarget = m
+		dvd.FinalTarget = float32(m)
 		workload.BatchSize++
 		datas.AddItems(*dvd)
 	}
