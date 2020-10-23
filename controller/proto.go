@@ -75,9 +75,6 @@ func P(c echo.Context) error {
 				sam = append(sam, samp)
 			}
 
-
-
-
 		}
 
 		batch := &grpc_from0.Batch{

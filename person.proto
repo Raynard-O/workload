@@ -12,8 +12,6 @@ message sample {
   float FinalTarget = 5;
 }
 
-
-
 message batch {
   int32 Batch_ID = 1;
   repeated sample samples = 2;
