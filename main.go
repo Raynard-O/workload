@@ -11,6 +11,7 @@ func main() {
 	e := echo.New()
 	//e.GET("/", controller.Proto)
 	e.POST("/client", controller.Options)
+	e.GET("/summary", controller.Summary)
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
