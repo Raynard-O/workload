@@ -19,5 +19,5 @@ func Summary(c echo.Context) error {
 	//	Home:   "Montreal",
 	//	School: "Concordia",
 	//}
-	return c.JSONPretty(201, &data, "")
+	return c.JSONPretty(201, data[1:50], "")
 }
