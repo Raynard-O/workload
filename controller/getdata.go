@@ -107,22 +107,16 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 
 func DataSet2(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 
-	//workload := new(library.DataParamsRequest)
-	//if err := ctx.Bind(workload); err != nil {
-	//	log.Fatal(err)
-	//}
 	workload := &library.DataParamsRequest{
 
 		BenchmarkType:  "NDBENCH",
-		WorkloadMetric: "CPU",
+		WorkloadMetric: "MEMUTI",
 		BatchUnit:      2,
 		BatchID:         5,
 		BatchSize:      0,
 	}
 	fmt.Print(workload)
-	//if workload.BenchmarkType == "" || workload.RFWID == "" || workload.WorkloadMetric == "" {
-	//	log.Fatal("Params can not be empty")
-	//}
+
 
 	workload.BatchSize = 0
 
@@ -131,19 +125,10 @@ func DataSet2(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 	switch workload.BenchmarkType {
 	case "DVD":
 		fileimage = "Workload_Data/DVD-training.csv"
-		//if workload.Workload_Metric == "TRAIN" {
-		//	fileimage = "Workload_Data/DVD-training.csv"
-		//}
-		//else {
-		//	fileimage = "Workload_Data/DVD-testing.csv"
-		//}
+
 	default:
 		fileimage = "Workload_Data/NDBench-training.csv"
-		//if workload.Workload_Metric != "TRAIN" {
-		//	fileimage = "Workload_Data/NDBench-training.csv"
-		//}else {
-		//	fileimage = "Workload_Data/NDBench-testing.csv"
-		//}
+
 	}
 
 	file, err := os.Open(fileimage)
