@@ -1,16 +1,15 @@
 package controller
 
 import (
-	grpcfrom0 "Proto/github.com/monkrus/grpc-from0"
+	grpc_from0 "Proto/github.com/monkrus/grpc-from0"
 	"fmt"
 	"github.com/labstack/echo"
+	"log"
 )
 
-func Options(c echo.Context) error {
+func Summary(c echo.Context) error {
 
-
-
-	data, workload := DataSet(c)
+	data, workload := DataSet2(c)
 
 	var size int = workload.BatchUnit
 	var unit int = workload.BatchID
@@ -38,9 +37,9 @@ func Options(c echo.Context) error {
 		//serverRFW.Benchmark_Type = "Final_Target"
 	}
 
-	fmt.Printf("Workload Metrics : %d", Bench)
+	fmt.Println(Bench)
 
-	var batch3 []*grpcfrom0.Batch
+	var batch3 []*grpc_from0.Batch
 
 	ID := 1
 	for i := 0; i <= totalT; {
@@ -48,30 +47,30 @@ func Options(c echo.Context) error {
 		z := total-i
 		b := total-i-size
 		test := result[b: z]
-		var sam []*grpcfrom0.Sample
-		for k := size-1 ; k >= 0; k-- {
+		var sam []*grpc_from0.Sample
+		for k := 0 ; k <= size-1; k++ {
 			if Bench == 0 {
-				samp := &grpcfrom0.Sample{
+				samp := &grpc_from0.Sample{
 					CPUUtilization: test[k].CpuUtilizationAverage,
 				}
 				sam = append(sam, samp)
 			}else if Bench == 1 {
-				samp := &grpcfrom0.Sample{
+				samp := &grpc_from0.Sample{
 					NetworkIN: test[k].NetworkInAverage,
 				}
 				sam = append(sam, samp)
 			}else if Bench == 2 {
-				samp := &grpcfrom0.Sample{
+				samp := &grpc_from0.Sample{
 					NetworkOUT: test[k].NetworkOutAverage,
 				}
 				sam = append(sam, samp)
 			}else if Bench == 3 {
-				samp := &grpcfrom0.Sample{
+				samp := &grpc_from0.Sample{
 					MemoryUtilization: test[k].MemoryUtilizationAverage,
 				}
 				sam = append(sam, samp)
 			}else {
-				samp := &grpcfrom0.Sample{
+				samp := &grpc_from0.Sample{
 					MemoryUtilization: test[k].MemoryUtilizationAverage,
 				}
 				sam = append(sam, samp)
@@ -79,19 +78,15 @@ func Options(c echo.Context) error {
 
 
 		}
-		batch := &grpcfrom0.Batch{
+		batch := &grpc_from0.Batch{
 			Batch_ID: int32(ID),
 			Samples:  sam,
 		}
-		//log.Println(test)
+		log.Println(test)
 		batch3 = append(batch3, batch)
 		i += size
 		ID++
 	}
-	if workload.BinarySerialization == "binary" {
-		return Proto(c, workload.RFWID, int32(workload.BatchID), batch3)
-	}
 
-	return EncodeJson(c, workload.RFWID, int32(workload.BatchID), batch3)
-
+	return c.JSONPretty(200, batch3, "")
 }
