@@ -38,32 +38,16 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 	}
 
 		workload.BatchSize = 0
-	//workload := library.DataParamsRequest{
-	//
-	//	Benchmark_Type:  "NDBENCH",
-	//	Workload_Metric: "CPU",
-	//	Batch_Unit:      2,
-	//	BatchId:         5,
-	//	Batch_Size:      0,
-	//}
+
 	var fileimage string
 
 	switch workload.BenchmarkType {
 	case "DVD":
 		fileimage = "Workload_Data/DVD-training.csv"
-		//if workload.Workload_Metric == "TRAIN" {
-		//	fileimage = "Workload_Data/DVD-training.csv"
-		//}
-		//else {
-		//	fileimage = "Workload_Data/DVD-testing.csv"
-		//}
+
 	default:
 		fileimage = "Workload_Data/NDBench-training.csv"
-		//if workload.Workload_Metric != "TRAIN" {
-		//	fileimage = "Workload_Data/NDBench-training.csv"
-		//}else {
-		//	fileimage = "Workload_Data/NDBench-testing.csv"
-		//}
+
 	}
 
 	file, err := os.Open(fileimage)
