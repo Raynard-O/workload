@@ -30,9 +30,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3aa81862-1be2-4175-8425-e054d164cf50" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/controller/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/client.go" afterDir="false" />
-    </list>
+    <list default="true" id="3aa81862-1be2-4175-8425-e054d164cf50" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
