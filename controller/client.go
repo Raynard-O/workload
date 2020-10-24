@@ -2,7 +2,6 @@ package controller
 
 import (
 	grpcfrom0 "Proto/github.com/monkrus/grpc-from0"
-	"fmt"
 	"github.com/labstack/echo"
 )
 
@@ -38,7 +37,7 @@ func Options(c echo.Context) error {
 		//serverRFW.Benchmark_Type = "Final_Target"
 	}
 
-	fmt.Printf("Workload Metrics : %d", Bench)
+	//fmt.Printf("Workload Metrics : %d", Bench)
 
 	var batch3 []*grpcfrom0.Batch
 
