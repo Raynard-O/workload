@@ -71,7 +71,7 @@ func Options(c echo.Context) error {
 				sam = append(sam, samp)
 			}else {
 				samp := &grpcfrom0.Sample{
-					MemoryUtilization: test[k].MemoryUtilizationAverage,
+					MemoryUtilization: test[k].FinalTarget,
 				}
 				sam = append(sam, samp)
 			}

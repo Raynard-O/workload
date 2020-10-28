@@ -40,7 +40,7 @@ func Summary(c echo.Context) error {
 	fmt.Println(Bench)
 
 	var batch3 []*grpc_from0.Batch
-
+	Bench = 4
 	ID := 1
 	for i := 0; i <= totalT; {
 
@@ -125,6 +125,7 @@ func Client2(c echo.Context) error {
 	}
 
 
+	log.Println("\n\n\n")
 	// derive the last batch ID of the dataset with response to the batch unit size
 	last_batch_id := workload.BSize/ workload.BatchUnit
 	last_batch_id = last_batch_id + 1
@@ -171,7 +172,7 @@ func Client2(c echo.Context) error {
 				sam = append(sam, samp)
 			}else {
 				samp := &grpc_from0.Sample{
-					MemoryUtilization: newBatch[k].FinalTarget,
+					FinalTarget: newBatch[k].FinalTarget,
 				}
 				sam = append(sam, samp)
 			}
