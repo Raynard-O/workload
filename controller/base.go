@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"Proto/github.com/binary"
+	"Proto/binary"
 	grpc_from0 "Proto/github.com/monkrus/grpc-from0"
 	"fmt"
 	"github.com/labstack/echo"
