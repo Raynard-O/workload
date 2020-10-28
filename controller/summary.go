@@ -91,11 +91,20 @@ func Summary(c echo.Context) error {
 	return c.JSONPretty(200, batch3, "")
 }
 
-
+/*Data mining and Algorithm Manipulation of Dataset request
+Gets -  the Dataset and Client request
+Return - slice of data as requested by the client
+*/
 
 func Client2(c echo.Context) error {
-
+	// gets dataset and request params from the context
 	data, workload := DataSet(c)
+	log.Println(data)
+	if data == nil {
+		return BadRequestResponse(c, "Invalid Params")
+	}
+
+	//determine the workload metrics to be operated on
 	var Bench int8
 	switch workload.WorkloadMetric {
 	case "CPU":
@@ -115,44 +124,54 @@ func Client2(c echo.Context) error {
 		//serverRFW.Benchmark_Type = "Final_Target"
 	}
 
+
+	// derive the last batch ID of the dataset with response to the batch unit size
 	last_batch_id := workload.BSize/ workload.BatchUnit
 	last_batch_id = last_batch_id + 1
 	fmt.Println(Bench, last_batch_id)
+
+	// new instance for arrays of  batch request
+	var batch3 []*grpc_from0.Batch
+
+
+	// iterate over the dataset array to create a new array for batch IDS
 	ID := workload.BatchID-1
 	BatchSize := ID+workload.BatchSize -1
-
-	var batch3 []*grpc_from0.Batch
 
 	for i := ID; i <= BatchSize; {
 
 		b := i*workload.BatchUnit
 		z := b+workload.BatchUnit
-		test := data[b+1:z+1]
+		// creating a new batch per ID and appending the new batch to the array of batches
+		newBatch := data[b+1:z+1]
+		// new instance for arrays of  sample request
 		var sam []*grpc_from0.Sample
 		for k := 0 ; k <= workload.BatchUnit-1; k++ {
+			// creating a new sample for each batch unit sample and appending the new sample to the array of samples
+
 			if Bench == 0 {
 				samp := &grpc_from0.Sample{
-					CPUUtilization: test[k].CpuUtilizationAverage,
+					CPUUtilization: newBatch[k].CpuUtilizationAverage,
 				}
 				sam = append(sam, samp)
 			}else if Bench == 1 {
 				samp := &grpc_from0.Sample{
-					NetworkIN: test[k].NetworkInAverage,
+					NetworkIN: newBatch[k].NetworkInAverage,
 				}
 				sam = append(sam, samp)
 			}else if Bench == 2 {
 				samp := &grpc_from0.Sample{
-					NetworkOUT: test[k].NetworkOutAverage,
+					NetworkOUT: newBatch[k].NetworkOutAverage,
 				}
 				sam = append(sam, samp)
 			}else if Bench == 3 {
 				samp := &grpc_from0.Sample{
-					MemoryUtilization: test[k].MemoryUtilizationAverage,
+					MemoryUtilization: newBatch[k].MemoryUtilizationAverage,
 				}
 				sam = append(sam, samp)
 			}else {
 				samp := &grpc_from0.Sample{
-					MemoryUtilization: test[k].MemoryUtilizationAverage,
+					MemoryUtilization: newBatch[k].MemoryUtilizationAverage,
 				}
 				sam = append(sam, samp)
 			}
@@ -163,17 +182,15 @@ func Client2(c echo.Context) error {
 			Batch_ID: int32(i+1),
 			Samples:  sam,
 		}
-		log.Println(test)
+		log.Println(newBatch)
 		batch3 = append(batch3, batch)
-		//i += size
 		i++
 	}
-
+	// determining the type of files to return to the client depending on the Binary serialization request.
 	if workload.BinarySerialization == "binary" {
+		//returns protobuf binary
 		return Proto(c, workload.RFWID, int32(last_batch_id), batch3)
 	}
-
+	//return json encoded data
 	return EncodeJson(c, workload.RFWID, int32(last_batch_id), batch3)
-
-
 }
