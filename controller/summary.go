@@ -125,19 +125,23 @@ func Client2(c echo.Context) error {
 	}
 
 
+
+	// iterate over the dataset array to create a new array for batch IDS
+	ID := workload.BatchID-1
+	BatchSize := ID+workload.BatchSize -1
+
+
 	log.Println("\n\n\n")
 	// derive the last batch ID of the dataset with response to the batch unit size
-	last_batch_id := workload.BSize/ workload.BatchUnit
-	last_batch_id = last_batch_id + 1
+	//last_batch_id := workload.BSize/ workload.BatchUnit
+	//last_batch_id = last_batch_id + 1
+	last_batch_id := ID + workload.BatchSize
 	fmt.Println(Bench, last_batch_id)
 
 	// new instance for arrays of  batch request
 	var batch3 []*grpc_from0.Batch
 
 
-	// iterate over the dataset array to create a new array for batch IDS
-	ID := workload.BatchID-1
-	BatchSize := ID+workload.BatchSize -1
 
 	for i := ID; i <= BatchSize; {
 
