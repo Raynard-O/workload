@@ -41,6 +41,16 @@ func Options(c echo.Context) error {
 
 	var batch3 []*grpcfrom0.Batch
 
+
+
+
+
+
+
+
+
+
+
 	ID := 1
 	for i := 0; i <= totalT; {
 
@@ -87,6 +97,10 @@ func Options(c echo.Context) error {
 		i += size
 		ID++
 	}
+
+
+
+
 	if workload.BinarySerialization == "binary" {
 		return Proto(c, workload.RFWID, int32(workload.BatchID), batch3)
 	}
@@ -94,3 +108,4 @@ func Options(c echo.Context) error {
 	return EncodeJson(c, workload.RFWID, int32(workload.BatchID), batch3)
 
 }
+

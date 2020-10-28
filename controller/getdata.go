@@ -94,15 +94,16 @@ func DataSet2(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 	workload := &library.DataParamsRequest{
 
 		BenchmarkType:  "NDBENCH",
-		WorkloadMetric: "MEMUTI",
-		BatchUnit:      2,
-		BatchID:         5,
-		BatchSize:      0,
+		WorkloadMetric: "CPU",
+		BatchUnit:      3,
+		BatchID:         3,
+		BSize: 0,
+		BatchSize:      4,
 	}
 	fmt.Print(workload)
 
 
-	workload.BatchSize = 0
+	workload.BSize = 0
 
 	var fileimage string
 
@@ -145,7 +146,7 @@ func DataSet2(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 		dvd.NetworkOutAverage = int32(k)
 		dvd.MemoryUtilizationAverage = float32(s)
 		dvd.FinalTarget = float32(m)
-		workload.BatchSize++
+		workload.BSize++
 		datas.AddItems(*dvd)
 	}
 

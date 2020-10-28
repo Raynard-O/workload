@@ -12,7 +12,7 @@ func main() {
 
 	e.POST("/client", controller.Options)
 
-
+	e.GET("/summary", controller.Summary2)
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{echo.GET, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
