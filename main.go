@@ -10,9 +10,9 @@ func main() {
 
 	e := echo.New()
 
-	e.POST("/client", controller.Options)
+	e.POST("/clients", controller.Options)
 
-	e.GET("/summary", controller.Summary2)
+	e.POST("/client", controller.Client2)
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{echo.GET, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},

@@ -9,7 +9,7 @@ import (
 
 func Summary(c echo.Context) error {
 
-	data, workload := DataSet2(c)
+	data, workload := DataSet(c)
 
 	var size int = workload.BatchUnit
 	var unit int = workload.BatchID
@@ -93,9 +93,9 @@ func Summary(c echo.Context) error {
 
 
 
-func Summary2(c echo.Context) error {
+func Client2(c echo.Context) error {
 
-	data, workload := DataSet2(c)
+	data, workload := DataSet(c)
 	var Bench int8
 	switch workload.WorkloadMetric {
 	case "CPU":
@@ -116,6 +116,7 @@ func Summary2(c echo.Context) error {
 	}
 
 	last_batch_id := workload.BSize/ workload.BatchUnit
+	last_batch_id = last_batch_id + 1
 	fmt.Println(Bench, last_batch_id)
 	ID := workload.BatchID-1
 	BatchSize := ID+workload.BatchSize -1

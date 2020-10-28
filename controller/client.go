@@ -41,16 +41,6 @@ func Options(c echo.Context) error {
 
 	var batch3 []*grpcfrom0.Batch
 
-
-
-
-
-
-
-
-
-
-
 	ID := 1
 	for i := 0; i <= totalT; {
 

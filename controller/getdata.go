@@ -37,7 +37,7 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 		log.Fatal("Params can not be empty")
 	}
 
-		workload.BatchSize = 0
+	workload.BSize = 0
 
 	var fileimage string
 
@@ -80,7 +80,7 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 		dvd.NetworkOutAverage = int32(k)
 		dvd.MemoryUtilizationAverage = float32(s)
 		dvd.FinalTarget = float32(m)
-		workload.BatchSize++
+		workload.BSize++
 		datas.AddItems(*dvd)
 	}
 
