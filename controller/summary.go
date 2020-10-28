@@ -71,7 +71,7 @@ func Summary(c echo.Context) error {
 				sam = append(sam, samp)
 			}else {
 				samp := &grpc_from0.Sample{
-					MemoryUtilization: test[k].MemoryUtilizationAverage,
+					MemoryUtilization: test[k].FinalTarget,
 				}
 				sam = append(sam, samp)
 			}
@@ -171,7 +171,7 @@ func Client2(c echo.Context) error {
 				sam = append(sam, samp)
 			}else {
 				samp := &grpc_from0.Sample{
-					MemoryUtilization: newBatch[k].MemoryUtilizationAverage,
+					MemoryUtilization: newBatch[k].FinalTarget,
 				}
 				sam = append(sam, samp)
 			}
