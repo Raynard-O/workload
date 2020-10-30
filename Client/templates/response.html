@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Response</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_2.css')}}">
+</head>
+<body>
+    <h1>Response:</h1>
+    <div>
+        <h2>The requesting parameters are:</h2>
+        <p>RFWID: {{ params.RFWID }}</p>
+        <p>Benchmark Type: {{ params.BenchmarkType }}</p>
+        <p>Workload Metric: {{ params.WorkloadMetric }}</p>
+        <p>Batch Unit: {{ params.BatchUnit }}</p>
+        <p>Batch ID: {{ params.BatchID }}</p>
+        <p>Batch Size: {{ params.BatchSize }}</p>
+        {% if params.BinarySerialization == "binary" %}
+        <p>Using binary (de)serialization: protocol buffer</p>
+        {% else %}
+        <p>Using text-based (de)serialization: JSON</p>
+        {% endif %}
+    </div>
+    <div>
+        <h2>The returning parameters are:</h2>
+        <p>Returned RFWID: {{ ReturnRFWID }}</p>
+        <p>Last Batch ID: {{ LastBatchID }}</p>
+    </div>
+    <div>
+        <h3>The requested samples:</h3>
+        <table>
+            <TR>
+                <th>#</th>
+                <th>Batch ID</th>
+                <th>{{ params.WorkloadMetric }}</th>
+            </TR>
+            {% for samplez in samples %}
+            <TR>
+               <TD>{{samplez.id}}</TD>
+               <TD>{{samplez.batchid}}</TD>
+               <TD>{{samplez.sample}}</TD>
+            </TR>
+            {% endfor %}
+        </table>
+    </div>
+    <ul>
+        <!-- {% for field in requestresponse %}
+            <li>{{ field }}</li>
+        {% endfor %} -->
+    </ul>
+</body>
+</html>

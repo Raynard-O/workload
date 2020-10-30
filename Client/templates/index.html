@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send request</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1 style="text-align: center;">Insert your request parameters</h1>
+
+    <form action="{{ url_for('response') }}" method="post" style="text-align: center;">
+        <label>RFWID: {{rfwid}}</label> <br><br>
+        <input type="hidden" id="RFWID" name="RFWID_form" value={{rfwid}}>
+        <label for="BenchmarkType_form">Benchmark Type:</label> <br>
+        <select name="BenchmarkType_form">
+            <option value="DVD">Dell DVD</option>
+            <option value="NDBench">Netflix NDBench</option>
+        </select> <br><br>
+        <!-- <input type="text" name="BenchmarkType_form" placeholder="NDBench or DVD"> <br> -->
+        <label for="WorkloadMetric_form">Workload Metric:</label> <br>
+        <select name="WorkloadMetric_form">
+            <option value="CPU">Average CPU Utilization</option>
+            <option value="NETIN">Average Network In</option>
+            <option value="NETOUT">Average Network Out</option>
+            <option value="MEMUTI">Average Memory Utilization</option>
+            <option value="FinalTarget">Final Target</option>
+        </select> <br><br>
+        <!-- <input type="text" name="WorkloadMetric_form" placeholder="E.g CPU"> <br> -->
+        <label for="BatchUnit_form">Batch Unit:</label> <br>
+        <input type="number" id="BatchUnit" name="BatchUnit_form" min="0" value="5"> <br><br>
+        <label for="BatchID_form">Batch ID: </label> <br>
+        <input type="number" id="BatchID" name="BatchID_form" min="0" value="5"> <br><br>
+        <label for="BatchSize_form">Batch Size:</label> <br>
+        <input type="number" id="BatchSize" name="BatchSize_form" min="0" value="5"> <br><br>
+        <label for="BinarySeri_form">Binary serialization?</label> <br>
+        <input type="checkbox" id="binary" name="BinarySeri_form" value="binary"> <br><br>
+        <input type="submit" value="Send request"> <br>
+    </form>
+</body>
+</html>

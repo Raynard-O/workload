@@ -1,0 +1,4 @@
+flask
+flask_restful
+protobuf==3.13.0
+requests==2.24.0

@@ -1,0 +1,21 @@
+# installing heroku via docker
+#
+# # run docker build for image
+# docker build -t flask-work:latest .
+# docker run -d -p 5000:5000 flask-work
+#
+# # heroku Login
+#
+# heroku login
+#
+# # heroku docker container login
+#
+# heroku container: login
+#
+# # push file with tested docker container to heroku
+#
+# heroku container:push web --app workloadrequest
+#
+# # release docker file to heroku
+#
+# heroku container:release web --app workloadrequest

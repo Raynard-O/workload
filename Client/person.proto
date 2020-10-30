@@ -1,0 +1,22 @@
+syntax = "proto3";
+option go_package = "github.com/monkrus/grpc-from0;grpc_from0";
+package main;
+
+message sample {
+  int32 CPU_utilization = 1;
+  int32 NetworkIN = 2;
+  int32 NetworkOUT = 3;
+  float Memory_utilization = 4;
+  float FinalTarget = 5;
+}
+
+message batch {
+  int32 Batch_ID = 1;
+  repeated sample samples = 2;
+}
+message RFD {
+  string RFWID = 1;
+  int32 last_batch_id = 2;
+  repeated batch batches = 3;
+}
+
