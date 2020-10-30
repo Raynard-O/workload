@@ -11,6 +11,9 @@ import (
 	"strconv"
 )
 
+
+
+/*Data set structure*/
 type WORKLOAD struct {
 	CpuUtilizationAverage    int32
 	NetworkInAverage         int32
@@ -26,21 +29,30 @@ func (DATA *DATAs) AddItems(data WORKLOAD) {
 	DATA.WORKLOADs = append(DATA.WORKLOADs, data)
 }
 
-func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 
+/*
+Retrieve Datasets base on request params from the front end
+
+returns the full data to be processed, dataset size Bsize
+
+*/
+func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
+// create new data structure
 	workload := new(library.DataParamsRequest)
+	// bind/marshal query request to the data structure
 	if err := ctx.Bind(workload); err != nil {
 		log.Fatal(err)
 	}
 	fmt.Print(workload)
-	if workload.BenchmarkType == "" || workload.RFWID == "" || workload.WorkloadMetric == "" {
-		log.Fatal("Params can not be empty")
+	//check for valid query params
+	if workload.BatchUnit == 0 || workload.BatchID == 0 || workload.RFWID == "" || workload.BatchSize == 0 {
+		return nil, nil
 	}
-
-		workload.BatchSize = 0
+	//count data files
+	workload.BSize = 0
 
 	var fileimage string
-
+	//determine dataset to be worked on depending on query params
 	switch workload.BenchmarkType {
 	case "DVD":
 		fileimage = "Workload_Data/DVD-training.csv"
@@ -49,7 +61,7 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 		fileimage = "Workload_Data/NDBench-training.csv"
 
 	}
-
+	//get data from csv file
 	file, err := os.Open(fileimage)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -59,7 +71,7 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 	datas := new(DATAs)
 
 	for {
-		// Read each record from csv
+		// Read each data from csv
 		record, err := r.Read()
 		if err == io.EOF {
 			break
@@ -74,35 +86,40 @@ func DataSet(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 		m, _ := strconv.ParseFloat(record[4], 64)
 
 		dvd := new(WORKLOAD)
-
+		// writing the files to an array for better manipulation
 		dvd.CpuUtilizationAverage = int32(i)
 		dvd.NetworkInAverage = int32(j)
 		dvd.NetworkOutAverage = int32(k)
 		dvd.MemoryUtilizationAverage = float32(s)
 		dvd.FinalTarget = float32(m)
-		workload.BatchSize++
+		workload.BSize++
 		datas.AddItems(*dvd)
 	}
 
 	return datas.WORKLOADs, workload
 }
 
+/*
+Retrieve Datasets
+Hard-coded for test of Dataset functoin at backend
+returns the full data to be processed, dataset size Bsize
 
-
+*/
 func DataSet2(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 
 	workload := &library.DataParamsRequest{
 
 		BenchmarkType:  "NDBENCH",
-		WorkloadMetric: "MEMUTI",
-		BatchUnit:      2,
-		BatchID:         5,
-		BatchSize:      0,
+		WorkloadMetric: "CPU",
+		BatchUnit:      3,
+		BatchID:         3,
+		BSize: 0,
+		BatchSize:      4,
 	}
 	fmt.Print(workload)
 
 
-	workload.BatchSize = 0
+	workload.BSize = 0
 
 	var fileimage string
 
@@ -145,7 +162,7 @@ func DataSet2(ctx echo.Context) ([]WORKLOAD, *library.DataParamsRequest) {
 		dvd.NetworkOutAverage = int32(k)
 		dvd.MemoryUtilizationAverage = float32(s)
 		dvd.FinalTarget = float32(m)
-		workload.BatchSize++
+		workload.BSize++
 		datas.AddItems(*dvd)
 	}
 

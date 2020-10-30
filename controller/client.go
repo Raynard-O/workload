@@ -71,7 +71,7 @@ func Options(c echo.Context) error {
 				sam = append(sam, samp)
 			}else {
 				samp := &grpcfrom0.Sample{
-					MemoryUtilization: test[k].MemoryUtilizationAverage,
+					MemoryUtilization: test[k].FinalTarget,
 				}
 				sam = append(sam, samp)
 			}
@@ -87,6 +87,10 @@ func Options(c echo.Context) error {
 		i += size
 		ID++
 	}
+
+
+
+
 	if workload.BinarySerialization == "binary" {
 		return Proto(c, workload.RFWID, int32(workload.BatchID), batch3)
 	}
@@ -94,3 +98,4 @@ func Options(c echo.Context) error {
 	return EncodeJson(c, workload.RFWID, int32(workload.BatchID), batch3)
 
 }
+
