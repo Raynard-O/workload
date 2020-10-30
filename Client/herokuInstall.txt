@@ -19,3 +19,5 @@
 # # release docker file to heroku
 #
 # heroku container:release web --app workloadrequest
+
+best of luck
